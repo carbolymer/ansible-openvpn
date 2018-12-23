@@ -1,8 +1,7 @@
-Stouts.openvpn
+ansible-openvpn
 ==============
 
-[![Build Status](http://img.shields.io/travis/Stouts/Stouts.openvpn.svg?style=flat-square)](https://travis-ci.org/Stouts/Stouts.openvpn)
-[![Galaxy](http://img.shields.io/badge/galaxy-Stouts.openvpn-blue.svg?style=flat-square)](https://galaxy.ansible.com/Stouts/openvpn/)
+[![Build Status](https://travis-ci.org/carbolymer/ansible-openvpn.svg?branch=develop)](https://travis-ci.org/carbolymer/ansible-openvpn)
 
 Ansible role which manage openvpn server
 

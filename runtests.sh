@@ -2,9 +2,9 @@
 
 APPDIR=/var/tests
 CURDIR=`pwd`
-IMAGE=horneds/ubuntu14.04-ansible
+IMAGE=geerlingguy/docker-ubuntu1804-ansible
 
-RUNNER=`docker run -v $CURDIR:$APPDIR -w $APPDIR -t -i -d horneds/ubuntu14.04-ansible bash`
+RUNNER=`docker run -v $CURDIR:$APPDIR -w $APPDIR -t -i -d $IMAGE bash`
 
 assert () {
     docker exec -it $RUNNER $1 || ( echo ${2-'Test is failed'} && exit 1 )
@@ -14,11 +14,8 @@ assert () {
     assert "ansible-playbook -c local --syntax-check test.yml"          &&
     assert "ansible-playbook -c local test.yml"                         &&
     assert "ansible-playbook -c local test.yml" | grep changed=0
-
 } || {
-
     echo "Tests are failed"
-
 }
 
 docker exec -it $RUNNER /bin/bash

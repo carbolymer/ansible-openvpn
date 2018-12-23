@@ -18,6 +18,12 @@
      - openvpn_use_system_easyrsa
      - not openvpn_easyrsa_check.stat.exists
 
+- name: Create symlink for openssl.cnf
+  file:
+    src: "{{openvpn_etcdir}}/easy-rsa/openssl-1.0.0.cnf"
+    dest: "{{openvpn_etcdir}}/easy-rsa/openssl.cnf"
+    state: link
+
 - name: Generate scripts
   template: src={{item}}.j2 dest={{openvpn_etcdir}}/{{item}} mode=0700
   with_items: [vars, build-server.sh, build-client.sh, revoke-client.sh]
