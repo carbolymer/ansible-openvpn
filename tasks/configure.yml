@@ -23,6 +23,14 @@
     src: "{{openvpn_etcdir}}/easy-rsa/openssl-1.0.0.cnf"
     dest: "{{openvpn_etcdir}}/easy-rsa/openssl.cnf"
     state: link
+  when: not openvpn_use_system_easyrsa
+
+- name: Create symlink for openssl.cnf
+  file:
+    src: "/usr/share/easy-rsa/openssl-1.0.0.cnf"
+    dest: "/usr/share/easy-rsa/openssl.cnf"
+    state: link
+  when: openvpn_use_system_easyrsa
 
 - name: Generate scripts
   template: src={{item}}.j2 dest={{openvpn_etcdir}}/{{item}} mode=0700

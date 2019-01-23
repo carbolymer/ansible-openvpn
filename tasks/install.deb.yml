@@ -31,6 +31,10 @@
   apt: name=openvpn-auth-ldap force=yes
   when: openvpn_use_ldap
 
+- name: Install ifupdown (Debian)
+  apt: name=ifupdown
+  when: openvpn_bridge
+
 - name: Install bridge dependencies (Debian)
   apt: name=bridge-utils
   when: openvpn_bridge
