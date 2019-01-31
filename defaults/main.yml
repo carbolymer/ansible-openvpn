@@ -48,6 +48,9 @@ openvpn_key_size: 1024
 
 openvpn_clients: [client]                         # Make clients certificate
 openvpn_clients_revoke: []                        # Revoke clients certificates
+openvpn_clients_download_to: no                   # set to yes to download client configuration files to local directory
+openvpn_clients_download_path: client-config/     # set to path to which client configurations
+                                                  # (zip files) will be downloaded, path relative to the playbook
 
 # Use PAM authentication
 openvpn_use_pam: yes
