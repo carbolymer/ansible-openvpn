@@ -32,6 +32,12 @@
     state: link
   when: openvpn_use_system_easyrsa
 
+- name: update CRL expiration
+  replace:
+    path: /usr/share/easy-rsa/openssl.cnf
+    regexp: '^default_crl_days(.*?)$'
+    replace: 'default_crl_days= 3650                   # how long before next CRL'
+
 - name: Generate scripts
   template: src={{item}}.j2 dest={{openvpn_etcdir}}/{{item}} mode=0700
   with_items: [vars, build-server.sh, build-client.sh, revoke-client.sh]
