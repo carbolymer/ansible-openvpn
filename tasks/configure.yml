@@ -4,14 +4,22 @@
   unarchive: src=easy-rsa.tar.gz dest={{openvpn_etcdir}}
   when: not openvpn_use_system_easyrsa
 
+- set_fact:
+    openvpn_easyrsa_dir: "/usr/share/easy-rsa"
+  when: openvpn_use_system_easyrsa
+
+- set_fact:
+    openvpn_easyrsa_dir: "{{openvpn_etcdir}}/easy-rsa"
+  when: not openvpn_use_system_easyrsa
+
 - name: Check if easy-rsa 2.x is available from the system
-  stat: path=/usr/share/easy-rsa/build-ca
+  stat: path={{openvpn_easyrsa_dir}}/build-ca
   register: openvpn_easyrsa_check
   when: openvpn_use_system_easyrsa
 
 - fail:
     msg: >
-      EasyRSA 2.x is not present in /usr/share/easy-rsa.
+      EasyRSA 2.x is not present in {{openvpn_easyrsa_dir}}.
       Ensure the easy-rsa package is installed or disable the `openvpn_use_system_easyrsa` option.
   when:
      - not ansible_check_mode|d(False)
@@ -20,21 +28,13 @@
 
 - name: Create symlink for openssl.cnf
   file:
-    src: "{{openvpn_etcdir}}/easy-rsa/openssl-1.0.0.cnf"
-    dest: "{{openvpn_etcdir}}/easy-rsa/openssl.cnf"
+    src: "{{openvpn_easyrsa_dir}}/openssl-1.0.0.cnf"
+    dest: "{{openvpn_easyrsa_dir}}/openssl.cnf"
     state: link
-  when: not openvpn_use_system_easyrsa
-
-- name: Create symlink for openssl.cnf
-  file:
-    src: "/usr/share/easy-rsa/openssl-1.0.0.cnf"
-    dest: "/usr/share/easy-rsa/openssl.cnf"
-    state: link
-  when: openvpn_use_system_easyrsa
 
 - name: update CRL expiration
   replace:
-    path: /usr/share/easy-rsa/openssl.cnf
+    path: "{{openvpn_easyrsa_dir}}/openssl.cnf"
     regexp: '^default_crl_days(.*?)$'
     replace: 'default_crl_days= 3650                   # how long before next CRL'
 
@@ -125,7 +125,7 @@
   notify: [openvpn restart]
 
 - name: Configure server
-  template: src=server.conf.j2 dest={{openvpn_etcdir}}/server.conf
+  template: src=server.conf.j2 dest={{openvpn_confdir}}/server.conf
   notify: [openvpn restart]
 
 - name: Ensure openvpn key dir has the right permission

@@ -16,6 +16,9 @@
 - include: install.yum.yml
   when: ansible_os_family == 'RedHat'
 
+- include: install.pacman.yml
+  when: ansible_os_family == 'Archlinux'
+
 - include: configure.yml
 
 - include: setup-bridge.yml

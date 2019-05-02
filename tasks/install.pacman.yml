@@ -1,0 +1,22 @@
+---
+
+- name: Install requirements (Archlinux)
+  pacman:
+    name: [openvpn, openssl, zip]
+    force: yes
+
+- name: Install easy-rsa package
+  pacman: name=easy-rsa
+  when: openvpn_use_system_easyrsa
+
+- name: Install LDAP dependencies (Archlinux)
+  pacman: name=openvpn-auth-ldap force=yes
+  when: openvpn_use_ldap
+
+- name: Install ifupdown (Archlinux)
+  pacman: name=ifupdown
+  when: openvpn_bridge
+
+- name: Install bridge dependencies (Archlinux)
+  pacman: name=bridge-utils
+  when: openvpn_bridge

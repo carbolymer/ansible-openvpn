@@ -4,6 +4,7 @@ openvpn_enabled: yes                                # The role is enabled
 
 openvpn_etcdir: /etc/openvpn
 openvpn_keydir: "{{openvpn_etcdir}}/keys"
+openvpn_confdif: "{{openvpn_etcdir}}"
 
 # Installation settings
 openvpn_use_external_repo: false                    # Enable upstream OpenVPN repository
