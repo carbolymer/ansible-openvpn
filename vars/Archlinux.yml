@@ -5,5 +5,5 @@ openvpn_use_ldap_plugin_distribution: /usr/lib/openvpn/plugins/openvpn-auth-plug
 
 openvpn_confdir: "{{openvpn_etcdir}}/server"
 openvpn_service: openvpn-server@server
-openvpn_user: nobody
-openvpn_group: nobody
+openvpn_user:  openvpn
+openvpn_group: network

@@ -17,6 +17,7 @@ proto {{ openvpn_proto }}
 
 # Encrypt packets with cipher algorithm
 cipher {{ openvpn_cipher }}
+auth {{ openvpn_auth }}
 
 # The hostname/IP and port of the server. You can have multiple remote entries
 # to load balance between the servers.
@@ -49,9 +50,9 @@ persist-tun
 </key>
 {% if openvpn_tls_auth %}
 key-direction 1
-<tls-auth>
+<tls-crypt>
 {{ openvpn_tls_auth_file_contents | default('') }}
-</tls-auth>
+</tls-crypt>
 {% endif %}
 
 {% else %}
@@ -71,7 +72,7 @@ ns-cert-type server
 
 {% if openvpn_tls_auth and not openvpn_unified_client_profiles -%}
 # Use a static pre-shared key (PSK)
-tls-auth {{openvpn_tls_key}} 1
+tls-crypt {{openvpn_tls_key}} 1
 {% endif %}
 
 # Enable compression on the VPN link. Don't enable this unless it is also
